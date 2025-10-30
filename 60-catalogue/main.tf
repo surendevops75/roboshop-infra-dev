@@ -30,7 +30,7 @@ resource "terraform_data" "catalogue" {
 
   # terraform copies this file to mongodb server
   provisioner "file" {
-    source = "cataloguep.sh"
+    source = "catalogue.sh"
     destination = "/tmp/catalogue.sh"
   }
 
