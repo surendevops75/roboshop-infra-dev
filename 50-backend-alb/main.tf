@@ -45,4 +45,3 @@ resource "aws_route53_record" "backend_alb" {
   }
 }
 
-
