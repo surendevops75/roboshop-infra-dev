@@ -34,7 +34,7 @@ resource "aws_lb_listener" "front_end" {
 }
 resource "aws_route53_record" "backend_alb" {
   zone_id = var.zone_id
-  name    = "*.backend_alb-${var.environment}.${var.domain_name}" 
+  name    = "*.backend-alb-${var.environment}.${var.domain_name}" 
   type = "A"
 
   alias {
