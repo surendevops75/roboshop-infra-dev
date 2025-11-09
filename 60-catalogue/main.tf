@@ -120,7 +120,7 @@ resource "aws_launch_template" "catalogue" {
 
 }
 
-resource "aws_autoscaling_group" "bar" {
+resource "aws_autoscaling_group" "catalogue" {
   name                      = "${local.common_name_suffix}-catalogue"
   max_size                  = 10
   min_size                  = 1
