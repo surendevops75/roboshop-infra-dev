@@ -132,29 +132,29 @@ resource "aws_autoscaling_group" "catalogue" {
     id      = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version
   }
-
   vpc_zone_identifier       = local.private_subnet_ids
   target_group_arns = [aws_lb_target_group.catalogue.arn]
-
-  dynamic "tag" { #we will get the iterator with name as tag
+  
+  dynamic "tag" {  # we will get the iterator with name as tag
     for_each = merge(
       local.common_tags,
       {
         Name = "${local.common_name_suffix}-catalogue"
       }
     )
-
     content {
-       key                 = tag.key
-       value               = tag.value
-       propagate_at_launch = true
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
     }
   }
 
   timeouts {
     delete = "15m"
   }
+
 }
+
 
 resource "aws_autoscaling_policy" "catalogue" {
   autoscaling_group_name = aws_autoscaling_group.catalogue.name
@@ -167,5 +167,21 @@ resource "aws_autoscaling_policy" "catalogue" {
     }
 
     target_value = 75.0
+  }
+}
+
+resource "aws_lb_listener_rule" "catalogue" {
+  listener_arn = local.backend_alb_listener_arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.catalogue.arn
+  }
+
+  condition {
+    host_header {
+      values = ["catalogue.backend-alb-${var.environment}.${var.domain_name}"]
+    }
   }
 }
