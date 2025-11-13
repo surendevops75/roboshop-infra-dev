@@ -6,7 +6,7 @@
  */
 module "components" {
     for_each = var.components
-    source = "git::https://github.com/surendevops75/ansible-roboshop-roles-tf.git"
+    source = "git::https://github.com/surendevops75/terraform-roboshop-component.git"
     component = each.key
     rule_priority = each.value.rule_priority
 }
